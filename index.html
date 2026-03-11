@@ -96,7 +96,8 @@
     display: none;
     position: relative; z-index: 1;
     min-height: 100vh;
-    padding: 20px 16px 120px;
+    width: 100%;
+    padding: 14px 12px 100px;   /* mobile base */
     animation: pageIn 0.4s ease;
   }
   .page.active { display: flex; flex-direction: column; align-items: center; }
@@ -130,25 +131,28 @@
   @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-16px);} }
 
   .home-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+    display: grid;
+    grid-template-columns: 1fr;    /* mobile: single column */
+    gap: 14px;
     width: 100%;
-    max-width: 420px;
-    margin-top: 20px;
+    max-width: 480px;
+    margin-top: 16px;
   }
   .game-card {
-    display: flex; align-items: center; gap: 18px;
-    padding: 22px 28px;
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 22px;
     border-radius: var(--radius);
     border: none; cursor: pointer;
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(1.4rem, 5vw, 1.8rem);
+    font-size: clamp(1.25rem, 4vw, 1.7rem);
     color: white;
     box-shadow: var(--card-shadow);
     transition: transform 0.12s, box-shadow 0.12s;
     text-shadow: 1px 2px 0 rgba(0,0,0,0.2);
     position: relative; overflow: hidden;
+    width: 100%;
+    min-height: 72px;             /* large touch target */
+    text-align: left;
   }
   .game-card::after {
     content:'';
@@ -168,44 +172,50 @@
 
   /* ===== GAME WRAPPER ===== */
   .game-wrapper {
-    width: 100%; max-width: 520px;
-    display: flex; flex-direction: column; align-items: center; gap: 18px;
+    width: 100%;
+    max-width: 100%;              /* mobile: full width */
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
   }
 
   /* ===== HEADER BAR ===== */
   .header-bar {
     width: 100%; display: flex;
     align-items: center; justify-content: space-between;
-    padding: 12px 16px;
+    padding: 10px 12px;
     background: rgba(255,255,255,0.55);
     backdrop-filter: blur(8px);
     border-radius: var(--radius);
     box-shadow: 0 4px 0 rgba(0,0,0,0.08);
+    gap: 8px;
   }
   .header-bar h2 {
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    font-size: clamp(1rem, 3.5vw, 1.6rem);
     color: var(--navy);
+    white-space: nowrap;
   }
   .score-badge {
     background: var(--sun);
     color: var(--navy);
     font-family: 'Fredoka One', cursive;
-    font-size: 1.1rem;
-    padding: 6px 16px;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    padding: 5px 12px;
     border-radius: 50px;
     box-shadow: 0 4px 0 rgba(0,0,0,0.1);
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .home-btn {
     background: white;
     border: none; cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     width: 44px; height: 44px;
+    min-width: 44px;              /* never shrink below touch target */
     border-radius: 50%;
     box-shadow: 0 4px 0 rgba(0,0,0,0.1);
     transition: transform 0.1s;
     display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
   .home-btn:active { transform: scale(0.9); }
 
@@ -214,7 +224,7 @@
     background: white;
     border-radius: var(--radius);
     box-shadow: var(--card-shadow);
-    padding: 30px 40px;
+    padding: 20px 16px;           /* mobile: compact padding */
     text-align: center;
     width: 100%;
     position: relative; overflow: hidden;
@@ -238,7 +248,8 @@
     filter: drop-shadow(2px 4px 0 rgba(0,0,0,0.1));
   }
   .display-label {
-    font-size: 1rem; font-weight: 800;
+    font-size: clamp(0.7rem, 2.2vw, 1rem);
+    font-weight: 800;
     color: var(--navy); opacity: 0.55;
     text-transform: uppercase; letter-spacing: 2px;
     margin-bottom: 6px;
@@ -255,29 +266,33 @@
   /* ===== OPTIONS GRID ===== */
   .options-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    grid-template-columns: 1fr;   /* mobile: 1 column */
+    gap: 12px;
     width: 100%;
   }
   .option-btn {
     background: white;
     border: 4px solid transparent;
     border-radius: var(--radius-sm);
-    padding: 16px 8px;
+    padding: 14px 10px;
     cursor: pointer;
     text-align: center;
     box-shadow: var(--card-shadow);
     transition: transform 0.12s, box-shadow 0.12s, border-color 0.15s;
-    display: flex; flex-direction: column;
-    align-items: center; gap: 6px;
+    display: flex; flex-direction: row;  /* row on mobile: emoji + label side by side */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    min-height: 68px;                    /* generous touch target */
   }
-  .option-btn:hover  { transform: translateY(-3px) scale(1.04); }
+  .option-btn:hover  { transform: translateY(-3px) scale(1.02); }
   .option-btn:active { transform: translateY(2px); box-shadow: var(--card-shadow-hover); }
-  .option-btn .opt-emoji { font-size: clamp(2rem, 8vw, 3rem); }
+  .option-btn .opt-emoji { font-size: clamp(2rem, 6vw, 2.8rem); flex-shrink: 0; }
   .option-btn .opt-label {
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(0.85rem, 3vw, 1.1rem);
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
     color: var(--navy);
+    text-align: left;
   }
   .option-btn.correct {
     border-color: var(--grass);
@@ -297,7 +312,7 @@
     background: white;
     border-radius: var(--radius);
     box-shadow: var(--card-shadow);
-    padding: 22px 40px;
+    padding: 18px 16px;
     text-align: center;
     width: 100%;
   }
@@ -331,12 +346,14 @@
     background: linear-gradient(135deg, var(--coral), var(--orange));
     color: white; border: none; cursor: pointer;
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(1.2rem, 4vw, 1.5rem);
-    padding: 16px 40px;
+    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+    padding: 16px 24px;
     border-radius: 50px;
     box-shadow: 0 6px 0 rgba(0,0,0,0.18);
     transition: transform 0.1s, box-shadow 0.1s;
     letter-spacing: 0.5px;
+    width: 100%;                  /* full width on mobile */
+    min-height: 56px;             /* solid tap target */
   }
   .action-btn:hover  { transform: translateY(-2px); }
   .action-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 rgba(0,0,0,0.18); }
@@ -345,13 +362,17 @@
 
   /* ===== PROGRESS DOTS ===== */
   .progress-dots {
-    display: flex; gap: 10px; justify-content: center;
+    display: flex; gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 4px;
   }
   .dot {
-    width: 14px; height: 14px; border-radius: 50%;
+    width: 13px; height: 13px; border-radius: 50%;
     background: rgba(255,255,255,0.5);
     border: 2px solid rgba(255,255,255,0.8);
     transition: background 0.3s, transform 0.3s;
+    flex-shrink: 0;
   }
   .dot.done { background: var(--sun); transform: scale(1.2); }
   .dot.current { background: var(--coral); transform: scale(1.3); }
@@ -361,8 +382,9 @@
     background: white;
     border-radius: var(--radius);
     box-shadow: var(--card-shadow);
-    padding: 32px 28px;
-    width: 100%; max-width: 420px;
+    padding: 24px 16px;           /* compact on mobile */
+    width: 100%;
+    max-width: 100%;
     text-align: center;
   }
   .score-page-card h2 {
@@ -390,9 +412,9 @@
     background: #F8F9FF; border-radius: var(--radius-sm);
     padding: 12px 18px;
   }
-  .score-row .row-label { font-weight: 800; color: var(--navy); font-size: 1rem; }
+  .score-row .row-label { font-weight: 800; color: var(--navy); font-size: clamp(0.85rem, 2.5vw, 1rem); }
   .score-row .row-val {
-    font-family: 'Fredoka One', cursive; font-size: 1.3rem;
+    font-family: 'Fredoka One', cursive; font-size: clamp(1.1rem, 3.5vw, 1.3rem);
     color: var(--coral);
   }
   .star-row { display: flex; justify-content: center; gap: 6px; margin: 16px 0; }
@@ -408,14 +430,251 @@
     z-index: 9999;
   }
 
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 360px) {
-    .options-grid { gap: 8px; }
-    .option-btn { padding: 10px 4px; }
-    .big-letter { font-size: 4.5rem; }
+  /* ===================================================================
+     RESPONSIVE BREAKPOINTS — Mobile First
+     320–480   : xs mobile  (base styles above already cover this)
+     481–768   : tablet
+     769–1024  : laptop
+     1025+     : desktop
+     =================================================================== */
+
+  /* ── 320px – 480px : Extra-small / small phones ──────────────────── */
+  @media (max-width: 480px) {
+    :root { --radius: 22px; --radius-sm: 14px; }
+
+    body { font-size: 15px; }
+
+    .page { padding: 12px 10px 100px; }
+
+    /* Title scales down cleanly */
+    .home-title { font-size: clamp(1.9rem, 8vw, 2.6rem); }
+    .home-subtitle { font-size: 0.9rem; }
+    .mascot { font-size: clamp(4rem, 16vw, 5.5rem); margin: 6px 0; }
+
+    /* Cards stack single column, compact */
+    .home-cards { gap: 11px; }
+    .game-card  { padding: 16px 18px; min-height: 64px; font-size: 1.2rem; gap: 12px; }
+    .game-card .card-icon { font-size: 1.8rem; }
+
+    /* Header shrinks gracefully */
+    .header-bar { padding: 8px 10px; }
+    .home-btn   { width: 40px; height: 40px; min-width: 40px; font-size: 1.2rem; }
+    .score-badge { font-size: 0.82rem; padding: 4px 10px; }
+
+    /* Display card */
+    .big-display  { padding: 16px 12px; }
+    .big-letter   { font-size: clamp(4rem, 20vw, 6rem); }
+    .display-label{ font-size: 0.65rem; letter-spacing: 1.5px; }
+    .objects-row  { font-size: clamp(1.6rem, 7vw, 2.4rem); gap: 2px; }
+
+    /* Option buttons: full-width rows on tiny phones */
+    .options-grid { gap: 10px; }
+    .option-btn   { padding: 12px 10px; min-height: 60px; gap: 12px; }
+    .option-btn .opt-emoji { font-size: 1.9rem; }
+    .option-btn .opt-label { font-size: 0.95rem; }
+
+    /* Number buttons */
+    .num-options { gap: 10px; }
+    .num-btn     { padding: 14px 8px; min-height: 64px; font-size: 2rem; }
+
+    /* Word display */
+    .word-display { padding: 14px 12px; }
+    .big-word     { font-size: clamp(2.2rem, 10vw, 3rem); letter-spacing: 3px; }
+
+    /* Feedback */
+    .feedback { font-size: clamp(1.1rem, 4.5vw, 1.4rem); padding: 12px; }
+
+    /* Action button */
+    .action-btn { font-size: 1.1rem; padding: 14px 20px; min-height: 52px; }
+
+    /* Score page */
+    .score-page-card { padding: 20px 12px; }
+    .total-score { font-size: clamp(3rem, 13vw, 4.5rem); }
+    .score-row   { padding: 10px 12px; }
+    .star-row span { font-size: 1.9rem; }
+    .dot { width: 11px; height: 11px; }
+
+    /* Grass / sun decoration */
+    .grass-strip { height: 60px; }
+    .grass-strip::before { font-size: 18px; letter-spacing: 10px; top:-12px; }
+    .sun-ball { width: 140px; height: 140px; top:-45px; right:-45px; }
   }
-  @media (min-width: 600px) {
-    .page { max-width: 580px; margin: 0 auto; }
+
+  /* ── 481px – 768px : Tablets ─────────────────────────────────────── */
+  @media (min-width: 481px) and (max-width: 768px) {
+    .page { padding: 18px 20px 110px; }
+
+    /* Home cards: 2 columns on tablet */
+    .home-cards {
+      grid-template-columns: 1fr 1fr;
+      max-width: 600px;
+      gap: 16px;
+    }
+    /* Score button spans both columns */
+    .home-cards .card-score { grid-column: 1 / -1; }
+
+    .game-card { font-size: 1.35rem; padding: 20px 22px; }
+    .game-card .card-icon { font-size: 2rem; }
+    .mascot { font-size: clamp(5rem, 14vw, 7rem); }
+
+    /* Game wrapper: constrain to readable width */
+    .game-wrapper { max-width: 560px; gap: 16px; }
+
+    /* Options: 2 columns on tablet, still big enough to tap */
+    .options-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    /* Switch back to column layout for option buttons (card style) */
+    .option-btn {
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      min-height: 110px;
+      padding: 16px 8px;
+    }
+    .option-btn .opt-label { text-align: center; font-size: 1rem; }
+    .option-btn .opt-emoji { font-size: clamp(2.2rem, 6vw, 3rem); }
+
+    /* Number buttons: 3 side-by-side */
+    .num-options { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .num-btn     { padding: 20px 8px; min-height: 80px; }
+
+    /* Action button: auto width, centered */
+    .action-btn { width: auto; padding: 16px 40px; }
+
+    /* Score page */
+    .score-page-card { max-width: 480px; padding: 28px 24px; }
+
+    /* Score page buttons: row */
+    .score-page-card > div:last-child { flex-direction: row !important; }
+
+    /* Big display */
+    .big-display { padding: 24px 28px; }
+    .display-label { font-size: 0.82rem; }
+
+    /* Header */
+    .header-bar { padding: 12px 16px; }
+    .score-badge { font-size: 1rem; padding: 6px 14px; }
+    .home-btn    { width: 46px; height: 46px; font-size: 1.4rem; }
+  }
+
+  /* ── 769px – 1024px : Laptops ────────────────────────────────────── */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .page { padding: 24px 32px 120px; }
+
+    /* Home: 2-column card grid */
+    .home-cards {
+      grid-template-columns: 1fr 1fr;
+      max-width: 680px;
+      gap: 18px;
+    }
+    .home-cards .card-score { grid-column: 1 / -1; }
+    .game-card { font-size: 1.5rem; padding: 22px 26px; }
+    .game-card .card-icon { font-size: 2.2rem; }
+    .mascot { font-size: 7rem; }
+
+    /* Game wrapper */
+    .game-wrapper { max-width: 620px; gap: 18px; }
+
+    /* Options: 3 columns */
+    .options-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .option-btn {
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      min-height: 130px;
+      padding: 18px 10px;
+    }
+    .option-btn .opt-label { text-align: center; font-size: 1.05rem; }
+    .option-btn .opt-emoji { font-size: 2.8rem; }
+
+    .num-options { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .num-btn     { padding: 22px 8px; }
+
+    .action-btn { width: auto; padding: 16px 44px; font-size: 1.3rem; }
+
+    .score-page-card { max-width: 500px; padding: 30px 28px; }
+    .score-page-card > div:last-child { flex-direction: row !important; }
+
+    .big-display { padding: 28px 36px; }
+    .display-label { font-size: 0.9rem; }
+
+    .header-bar { padding: 12px 18px; }
+    .home-btn   { width: 48px; height: 48px; font-size: 1.5rem; }
+    .score-badge { font-size: 1.05rem; padding: 6px 16px; }
+  }
+
+  /* ── 1025px+ : Desktop ───────────────────────────────────────────── */
+  @media (min-width: 1025px) {
+    .page { padding: 30px 40px 140px; }
+
+    /* Home: 2-col for game buttons, full-width score */
+    .home-cards {
+      grid-template-columns: 1fr 1fr;
+      max-width: 760px;
+      gap: 20px;
+    }
+    .home-cards .card-score { grid-column: 1 / -1; }
+    .game-card {
+      font-size: 1.6rem;
+      padding: 26px 30px;
+      min-height: 84px;
+    }
+    .game-card .card-icon { font-size: 2.5rem; }
+    .mascot { font-size: 8rem; }
+    .home-title { font-size: 4.2rem; }
+    .home-subtitle { font-size: 1.25rem; }
+
+    /* Game wrapper: comfortable reading width */
+    .game-wrapper { max-width: 680px; gap: 20px; }
+
+    /* Options: 3 columns with spacious cards */
+    .options-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .option-btn {
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      min-height: 150px;
+      padding: 22px 14px;
+    }
+    .option-btn .opt-label { text-align: center; font-size: 1.1rem; }
+    .option-btn .opt-emoji { font-size: 3rem; }
+    .option-btn:hover { transform: translateY(-5px) scale(1.04); }
+
+    .num-options { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .num-btn     { padding: 24px 8px; font-size: 3rem; }
+
+    .action-btn { width: auto; padding: 18px 52px; font-size: 1.4rem; }
+
+    .score-page-card { max-width: 540px; padding: 36px 32px; }
+    .score-page-card > div:last-child { flex-direction: row !important; }
+
+    .big-display { padding: 32px 48px; }
+    .display-label { font-size: 1rem; }
+
+    .word-display { padding: 26px 48px; }
+    .big-word { font-size: 4.5rem; }
+
+    .header-bar { padding: 14px 20px; }
+    .header-bar h2 { font-size: 1.55rem; }
+    .home-btn    { width: 50px; height: 50px; font-size: 1.6rem; }
+    .score-badge { font-size: 1.1rem; padding: 7px 18px; }
+
+    .sun-ball { width: 240px; height: 240px; top:-70px; right:-70px; }
+    .grass-strip { height: 90px; }
+    .grass-strip::before { font-size: 26px; letter-spacing: 14px; top:-16px; }
+  }
+
+  /* ── Wide desktop centering ──────────────────────────────────────── */
+  @media (min-width: 1200px) {
+    .page { max-width: 1200px; margin: 0 auto; }
   }
 
   /* ===== STARS DECORATION ===== */
@@ -434,15 +693,15 @@
   /* ===== NUMBER OPTIONS ===== */
   .num-options {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    grid-template-columns: 1fr;   /* mobile: 1 column */
+    gap: 12px;
     width: 100%;
   }
   .num-btn {
     background: white;
     border: 4px solid transparent;
     border-radius: var(--radius-sm);
-    padding: 20px 8px;
+    padding: 18px 8px;
     cursor: pointer;
     font-family: 'Fredoka One', cursive;
     font-size: clamp(2rem, 8vw, 3.2rem);
@@ -450,6 +709,7 @@
     box-shadow: var(--card-shadow);
     transition: transform 0.12s, box-shadow 0.12s;
     text-align: center;
+    min-height: 72px;
   }
   .num-btn:hover  { transform: translateY(-3px) scale(1.05); }
   .num-btn:active { transform: translateY(2px); box-shadow: var(--card-shadow-hover); }
@@ -602,7 +862,7 @@
           <span class="row-val" id="breakdown-word">0 pts</span>
         </div>
       </div>
-      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; flex-direction:column; margin-top:10px;">
         <button class="action-btn" onclick="resetAllScores()">Reset 🔄</button>
         <button class="action-btn green" onclick="goHome()">Play More! 🎮</button>
       </div>
